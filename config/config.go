@@ -6,9 +6,12 @@ import (
 )
 
 type Config struct {
-	Port       string `mapstructure:"PORT"`
-	APIVersion string `mapstructure:"API_VERSION"`
-	SqlitePath string `mapstructure:"DB_SQLITE_PATH"`
+	Port                       string `mapstructure:"PORT"`
+	APIVersion                 string `mapstructure:"API_VERSION"`
+	SqlitePath                 string `mapstructure:"DB_SQLITE_PATH"`
+	JwtSecretKey               string `mapstructure:"JWT_SECRET_KEY"`
+	TokenExpirationHour        int    `mapstructure:"TOKEN_EXPIRATION_HOUR"`
+	RefreshTokenExpirationHour int    `mapstructure:"REFRESH_TOKEN_EXPIRATION_HOUR"`
 }
 
 var config *Config

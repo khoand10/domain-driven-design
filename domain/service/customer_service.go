@@ -6,6 +6,14 @@ import (
 	"domain-driven-design/domain/repository"
 )
 
+type (
+	NewCustomer struct {
+		Name    string
+		Email   string
+		Address string
+	}
+)
+
 type CustomerService interface {
 	GetCustomer(id int64) (*entity.Customer, error)
 	GetCustomers() ([]*entity.Customer, error)

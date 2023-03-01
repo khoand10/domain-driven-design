@@ -12,14 +12,16 @@ type RestServer struct {
 	Engine          *echo.Echo
 	Config          *config.Config
 	CustomerHandler *http_transport.CustomerHandler
+	AuthHandler     *http_transport.AuthHandler
 }
 
-func InitRouter(server *RestServer) error {
+func Init(server *RestServer) error {
 	apiVersion := getAPIVersion(server)
 	group := server.Engine.Group(apiVersion)
 
 	// Routes
-	InitCustomerRouter(group.Group("/customers"), server.CustomerHandler)
+	InitCustomerRouter(group.Group("/customers"), server.CustomerHandler, server.Config)
+	InitAuthRouter(group.Group("/auth"), server.AuthHandler)
 
 	server.Engine.GET("", ping)
 

@@ -13,14 +13,6 @@ type CustomerHandler struct {
 	customerService service.CustomerService
 }
 
-type (
-	NewCustomer struct {
-		Name    string
-		Email   string
-		Address string
-	}
-)
-
 func NewCustomerHandler(customerService service.CustomerService) *CustomerHandler {
 	return &CustomerHandler{
 		customerService: customerService,
@@ -45,7 +37,7 @@ func (ch *CustomerHandler) GetCustomer(c echo.Context) error {
 }
 
 func (ch *CustomerHandler) CreateCustomer(c echo.Context) error {
-	var newCustomer NewCustomer
+	var newCustomer service.NewCustomer
 	err := json.NewDecoder(c.Request().Body).Decode(&newCustomer)
 	if err != nil {
 		return err

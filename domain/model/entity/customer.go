@@ -1,10 +1,10 @@
 package entity
 
 type Customer struct {
-	ID      string
-	Name    string
-	Email   string
-	Address string
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Address string `json:"address"`
 }
 
 //type Address struct {
