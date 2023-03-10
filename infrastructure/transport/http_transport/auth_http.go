@@ -7,6 +7,13 @@ import (
 	"net/http"
 )
 
+type (
+	LoginRes struct {
+		Token        string `json:"token"`
+		RefreshToken string `json:"refresh_token"`
+	}
+)
+
 type AuthHandler struct {
 	authService service.AuthService
 }
@@ -25,17 +32,24 @@ func (ah *AuthHandler) Login(c echo.Context) error {
 	}
 
 	ctx := context.Background()
-	authInfo, err := ah.authService.Login(ctx, &loginReq)
+	res, err := ah.authService.Login(ctx, &loginReq)
 	if err != nil {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusOK, authInfo)
+
+	return c.JSON(http.StatusOK, res)
 }
 
 func (ah *AuthHandler) RefreshAccessToken(c echo.Context) error {
-	refreshToken := c.Request().Header.Get("refresh_token")
+	var refreshReq service.RefreshReq
+	err := c.Bind(&refreshReq)
+	if err != nil {
+		return c.String(http.StatusBadRequest, "bad request")
+	}
+
+	//refreshToken := c.Request().Header.Get("refresh_token")
 	ctx := context.Background()
-	authInfo, err := ah.authService.RefreshAccessToken(ctx, refreshToken)
+	authInfo, err := ah.authService.RefreshAccessToken(ctx, &refreshReq)
 	if err != nil {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
